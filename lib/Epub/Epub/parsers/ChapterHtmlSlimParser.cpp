@@ -1535,7 +1535,13 @@ void XMLCALL ChapterHtmlSlimParser::startElement(void* userData, const XML_Char*
           const auto heapBeforeImage = MemoryBudget::snapshot();
           LOG_DBG("EHP", "Heap before image extraction: free=%u maxAlloc=%u src=%s", heapBeforeImage.freeHeap,
                   heapBeforeImage.maxAllocHeap, src.c_str());
-          if (!self->lowMemoryImageFallback && !MemoryBudget::hasHeapForEpubInlineImage("EHP", src.c_str())) {
+          // Only trip the low-memory image fallback for formats we can actually
+          // decode. An undecodable image (e.g. a GIF on a build without the GIF
+          // decoder) is skipped regardless of heap, so letting it trigger the
+          // fallback would spuriously warn about — and suppress — images that
+          // were never going to render.
+          if (ImageDecoderFactory::isFormatSupported(resolvedPath) && !self->lowMemoryImageFallback &&
+              !MemoryBudget::hasHeapForEpubInlineImage("EHP", src.c_str())) {
             self->lowMemoryImageFallback = true;
           }
 
