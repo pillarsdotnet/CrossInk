@@ -5,6 +5,7 @@
 - Large EPUB chapters can now open to the first readable page sooner while the rest of the chapter continues indexing in smaller chunks.
 - EPUB readers can now choose from five word-spacing levels, from normal through extra-wide.
 - EPUB inline-image pages on X3 now use the grayscale-aware display base before the image grayscale overlay, reducing the moment where images appear too dark before settling.
+- EPUB chapter images in GIF format now display (previously only JPEG and PNG were decoded, so GIF images — common for chapter-heading ornaments — were silently skipped). Animated GIFs render their first frame only, since these e-ink devices are unsuitable for animation.
 
 ### Changed
 
