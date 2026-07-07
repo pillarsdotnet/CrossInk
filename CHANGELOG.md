@@ -30,6 +30,7 @@
 - Render EPUB fieldsets as outlined boxes with padding, honoring publisher border styles and continuing across pages.
 - Show a one-time What's New screen after updating, with a one-click Update for an outdated language pack; reopen it anytime in Settings → System → Release Notes.
 - Choose a download folder for each OPDS server on the device or web portal, with options to use the shared default or SD root.
+- EPUB chapter images in GIF format now display (previously only JPEG and PNG were decoded, so GIF images — common for chapter-heading ornaments — were silently skipped). Animated GIFs render their first frame only, since these e-ink devices are unsuitable for animation.
 
 ### Fixed
 
