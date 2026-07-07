@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- EPUB chapter images in GIF format now display (previously only JPEG and PNG were decoded, so GIF images — common for chapter-heading ornaments — were silently skipped). Animated GIFs render their first frame only, since these e-ink devices are unsuitable for animation.
+
 ### Fixed
 
 - EPUB clipping selection now works from footnote previews.
