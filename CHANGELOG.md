@@ -11,6 +11,7 @@
 - EPUB clipping selection now works from footnote previews.
 - Web EPUB optimizer now keeps image references in malformed or XML-declared chapters aligned with renamed JPEG files.
 - Manage Fonts no longer crashes (abort) while loading the font list on devices with many SD-card font families installed. The font registry is now released before the network request, and the manifest is parsed without keeping the parsed JSON and the font registry in memory at the same time.
+- The "memory was too low to extract every image" warning no longer appears for image formats the reader cannot decode. Undecodable images (which are skipped regardless of memory) no longer trip the low-memory image fallback, so the warning only fires when a decodable image is actually suppressed.
 
 ## [v1.4.0] - 2026-07-04
 
