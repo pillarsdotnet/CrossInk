@@ -106,7 +106,6 @@ void FontSelectionActivity::onEnter() {
   fonts_.reserve(CrossPointSettings::BUILTIN_FONT_COUNT + (registry_ ? registry_->getFamilyCount() : 0));
 
   fonts_.push_back({I18N.get(StrId::STR_LEXEND_DECA), true, 0});
-  fonts_.push_back({I18N.get(StrId::STR_BITTER), true, 1});
 
   if (registry_) {
     const auto& families = registry_->getFamilies();
