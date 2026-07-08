@@ -3027,18 +3027,20 @@ class SimulatorSmokeTest {
 #if CROSSINK_SCALABLE_FONTS
     verifyBlockFontSizes(sdFontSystem.ensureBuiltInReaderFont(renderer), "s3-scalable");
 #else
-    for (const int base : {BITTER_12_FONT_ID, LEXENDDECA_12_FONT_ID}) {
+    // Bitter is not registered in this variant; LexendDeca (LexicaUltralegible
+    // glyphs) is the only built-in bitmap family.
+    for (const int base : {LEXENDDECA_12_FONT_ID}) {
       if (renderer.getFontPointSize(base) != 12) fail("Bitmap body size missing");
       for (const auto pair : {std::pair<uint8_t, uint8_t>{8, 10}, {11, 10}, {13, 14}, {15, 16}, {44, 16}}) {
         const int chosen = renderer.getFontIdForSize(base, pair.first);
         if (renderer.getFontPointSize(chosen) != pair.second) fail("Bitmap size snapping failed");
       }
       renderer.setOrientation(GfxRenderer::Portrait);
-      verifyBlockFontSizes(base, base == BITTER_12_FONT_ID ? "c3-bitter" : "c3-lexend");
+      verifyBlockFontSizes(base, "c3-lexend");
       renderer.setOrientation(GfxRenderer::LandscapeClockwise);
-      verifyBlockFontSizes(base, base == BITTER_12_FONT_ID ? "c3-bitter-landscape" : "c3-lexend-landscape");
-      verifyBitmapBook(base, base == BITTER_12_FONT_ID ? "bitter12" : "lexend12");
-      verifyBitmapBook(renderer.getFontIdForSize(base, 16), base == BITTER_12_FONT_ID ? "bitter16" : "lexend16");
+      verifyBlockFontSizes(base, "c3-lexend-landscape");
+      verifyBitmapBook(base, "lexend12");
+      verifyBitmapBook(renderer.getFontIdForSize(base, 16), "lexend16");
       renderer.setOrientation(orientation);
     }
 #endif

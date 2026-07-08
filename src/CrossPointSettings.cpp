@@ -126,8 +126,6 @@ CrossPointSettings::FONT_SIZE firstAvailableReaderFontSize() {
 #if !CROSSINK_SCALABLE_FONTS
 int getFallbackReaderFontIdForFamily(const CrossPointSettings::FONT_FAMILY family) {
   switch (family) {
-    case CrossPointSettings::BITTER:
-      return BITTER_10_FONT_ID;
     case CrossPointSettings::LEXENDDECA:
     default:
       return LEXENDDECA_10_FONT_ID;
@@ -403,16 +401,6 @@ uint8_t CrossPointSettings::legacyLineSpacingToPercent(const uint8_t legacyValue
   }
 
   switch (fontFamily) {
-    case BITTER:
-      switch (legacyValue) {
-        case TIGHT:
-          return 95;
-        case WIDE:
-          return 130;
-        case NORMAL:
-        default:
-          return 110;
-      }
     case LEXENDDECA:
     default:
       switch (legacyValue) {
@@ -1412,7 +1400,8 @@ int CrossPointSettings::getReaderFontId() const {
 
 int CrossPointSettings::getBuiltInReaderFontId() const {
 #if CROSSINK_SCALABLE_FONTS
-  return scalableBuiltinReaderFontId(fontFamily == BITTER ? 1 : 0, closestBuiltinReaderPointSize(readerFontPointSize));
+  // Single built-in family (LEXENDDECA == 0) after the Bitter removal.
+  return scalableBuiltinReaderFontId(0, closestBuiltinReaderPointSize(readerFontPointSize));
 #else
   const FONT_SIZE effectiveSize = getEffectiveReaderFontSize();
 
@@ -1431,19 +1420,6 @@ int CrossPointSettings::getBuiltInReaderFontId() const {
           return LEXENDDECA_16_FONT_ID;
       }
       return getFallbackReaderFontIdForFamily(LEXENDDECA);
-    case BITTER:
-      switch (effectiveSize) {
-        case TINY:
-          return BITTER_10_FONT_ID;
-        case SMALL:
-          return BITTER_12_FONT_ID;
-        case MEDIUM:
-        default:
-          return BITTER_14_FONT_ID;
-        case LARGE:
-          return BITTER_16_FONT_ID;
-      }
-      return getFallbackReaderFontIdForFamily(BITTER);
   }
   return getFallbackReaderFontIdForFamily(static_cast<FONT_FAMILY>(fontFamily));
 #endif

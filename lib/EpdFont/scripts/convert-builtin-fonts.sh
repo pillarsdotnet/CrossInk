@@ -161,8 +161,9 @@ generate_family() {
 
 generate_reading_fonts() {
   echo "Generating built-in reading fonts..."
-  generate_family lexenddeca LexendDeca LexendDeca yes
-  generate_family bitter Bitter Bitter yes
+  # Personal variant: LexicaUltralegible glyphs under the lexenddeca symbol
+  # names so the existing family wiring is reused. Bitter is not built.
+  generate_family lexenddeca LexicaUltralegible LexicaUltralegible yes
   echo ""
   echo "Built-in reading fonts complete."
   echo ""

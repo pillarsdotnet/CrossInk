@@ -97,7 +97,6 @@ void FontSelectionActivity::onEnter() {
 
   constexpr auto builtinRange = BUILTIN_FONT_POINT_SIZE_RANGE;
   fonts_.push_back({fontFamilyLabel(I18N.get(StrId::STR_LEXEND_DECA), builtinRange), true, 0});
-  fonts_.push_back({fontFamilyLabel(I18N.get(StrId::STR_BITTER), builtinRange), true, 1});
 
   if (registry_) {
     const auto& families = registry_->getFamilies();

@@ -1698,7 +1698,6 @@ void CrossPointWebServer::handleGetSettings() const {
         if (s.nameId == StrId::STR_FONT_FAMILY && !fontFamilies.empty()) {
           constexpr auto builtinRange = BUILTIN_FONT_POINT_SIZE_RANGE;
           options.add(fontFamilyLabel(I18N.get(StrId::STR_LEXEND_DECA), builtinRange));
-          options.add(fontFamilyLabel(I18N.get(StrId::STR_BITTER), builtinRange));
           for (const auto& family : fontFamilies) {
             options.add(fontFamilyLabel(family.name, fontFamilyPointSizeRange(family)));
           }

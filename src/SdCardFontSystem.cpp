@@ -121,7 +121,8 @@ void SdCardFontSystem::begin(GfxRenderer& renderer) {
 
 int SdCardFontSystem::ensureBuiltInReaderFont(GfxRenderer& renderer) {
 #if CROSSINK_SCALABLE_FONTS
-  ensureScalableBuiltinFamily(renderer, SETTINGS.fontFamily == CrossPointSettings::BITTER ? 1 : 0);
+  // Single built-in family (LEXENDDECA == 0) after the Bitter removal.
+  ensureScalableBuiltinFamily(renderer, 0);
 #else
   (void)renderer;
 #endif

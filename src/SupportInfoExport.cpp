@@ -14,7 +14,7 @@
 
 namespace {
 // Keep the tested support normalizer aligned with applyReaderSettings' constraints.
-static_assert(CrossPointSettings::BUILTIN_FONT_COUNT == 2 && CrossPointSettings::ORIENTATION_COUNT == 4 &&
+static_assert(CrossPointSettings::BUILTIN_FONT_COUNT == 1 && CrossPointSettings::ORIENTATION_COUNT == 4 &&
               CrossPointSettings::MIN_LINE_HEIGHT_PERCENT == 70 && CrossPointSettings::MAX_LINE_HEIGHT_PERCENT == 200 &&
               CrossPointSettings::MAX_WORD_SPACING == 8 && CrossPointSettings::MIN_SCREEN_MARGIN == 5 &&
               CrossPointSettings::MAX_SCREEN_MARGIN == 150 && CrossPointSettings::PARAGRAPH_ALIGNMENT_COUNT == 5 &&
