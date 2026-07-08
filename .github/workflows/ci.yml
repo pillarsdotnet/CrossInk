@@ -2,7 +2,7 @@ name: CI (build)
 
 on:
   push:
-    branches: [main]
+    branches: [development]
   pull_request:
 
 # A newer commit supersedes older PR validation; keep main pushes independent.
@@ -72,9 +72,8 @@ jobs:
         run: pio check --fail-on-defect low --fail-on-defect medium --fail-on-defect high
 
   build:
-    # Firmware artifacts are validated on pull requests; release builds stay
-    # in the dedicated release workflow.
-    if: github.event_name == 'pull_request'
+    # Build on pushes too (this fork has no PR flow); skip untrusted external fork PRs.
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
