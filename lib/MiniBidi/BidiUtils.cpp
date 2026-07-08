@@ -27,6 +27,13 @@ bool isNaturalDirectionClass(const uchar cls) {
   }
 }
 
+// Shared visual-reorder scratch for applyBidiVisual() and
+// computeVisualWordOrder(). Both run on the single render task and never call
+// each other, so one buffer is reused instead of a per-function static — saving
+// ~1.5 KB of always-resident RAM. Not reentrant (same assumption as the
+// previous per-function statics).
+bidi_char sharedBidiLine[BIDI_MAX_LINE];
+
 }  // namespace
 
 namespace BidiUtils {
@@ -71,7 +78,7 @@ int detectParagraphLevel(const char* utf8, const int fallbackLevel, const int ma
 bool applyBidiVisual(const char* utf8, std::string& out, int paragraphLevel) {
   if (!utf8 || !*utf8) return false;
 
-  static bidi_char line[BIDI_MAX_LINE];
+  bidi_char* const line = sharedBidiLine;
   int count = 0;
   auto* p = reinterpret_cast<const unsigned char*>(utf8);
   while (*p) {
@@ -106,7 +113,7 @@ bool computeVisualWordOrder(const std::vector<std::string>& words, bool paragrap
   const size_t nWords = words.size();
   if (nWords <= 1 || nWords > BIDI_MAX_LINE) return false;
 
-  static bidi_char line[BIDI_MAX_LINE];
+  bidi_char* const line = sharedBidiLine;
   int count = 0;
   bool truncated = false;
 
