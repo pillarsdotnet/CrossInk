@@ -2,6 +2,8 @@
 
 ### Added
 
+- Optional conservative-voltage safety mode for X3 panels (`FREEINK_X3_SAFE_VOLTAGES` build flag, off by default). Lowers only the panel source-drive voltage to reduce electrical stress on the display drivers, at the cost of slightly weaker contrast and more ghosting. VCOM and gate voltages are left at vendor values so DC balance is preserved.
+
 ### Changed
 
 ### Fixed
