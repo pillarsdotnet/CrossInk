@@ -31,6 +31,7 @@ const std::vector<SettingInfo>& getBaseSettingsList() {
             .withEnumRawValues({CrossPointSettings::REFRESH_1, CrossPointSettings::REFRESH_5,
                                 CrossPointSettings::REFRESH_10, CrossPointSettings::REFRESH_15,
                                 CrossPointSettings::REFRESH_30, CrossPointSettings::REFRESH_NEVER}));
+    add(buildX3SourceVoltageSetting());
     add(SettingInfo::Toggle(StrId::STR_READER_DARK_MODE, &CrossPointSettings::screenInverted, "screenInverted",
                             StrId::STR_CAT_DISPLAY));
     add(SettingInfo::Enum(StrId::STR_UI_THEME, &CrossPointSettings::uiTheme,

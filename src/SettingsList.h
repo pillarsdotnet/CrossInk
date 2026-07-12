@@ -600,12 +600,30 @@ inline SettingInfo buildSideButtonActionSetting(const StrId nameId, uint8_t Cros
 // #1636) so the per-entry SettingInfo cost is paid once. Read-only consumers
 // can use it directly; mutable device UI lists use getSettingsList(), which
 // returns an owned copy and can add SD-card font and dictionary options.
-// 107 common entries. Four edge gesture entries are compiled only for touch
+// 108 common entries. Four edge gesture entries are compiled only for touch
 // devices; getBaseSettingsCapacity() adds the two runtime IMU entries.
-inline constexpr size_t BASE_SETTINGS_CAPACITY = 107 + (CROSSINK_APP_CAP_TOUCH ? 4 : 0);
+inline constexpr size_t BASE_SETTINGS_CAPACITY = 108 + (CROSSINK_APP_CAP_TOUCH ? 4 : 0);
 
 inline size_t getBaseSettingsCapacity() {
   return BASE_SETTINGS_CAPACITY + (QuickActions::supportsTiltPageTurn() ? 2 : 0);
+}
+
+// X3 panel source-drive (VDH/VDL) level. Discrete levels from vendor full drive
+// (0x3F) down to the gentlest still-usable drive (0x28). Lower under-drives only
+// VDH/VDL to reduce source-driver stress on a suspect panel, trading contrast /
+// more ghosting. Stored as the raw register value; the driver clamps to <= 0x3F.
+// X3-only (no-op on X4); added to the Device menu only when running on X3.
+inline SettingInfo buildX3SourceVoltageSetting() {
+  SettingInfo s;
+  s.nameId = StrId::STR_X3_SOURCE_VOLTAGE;
+  s.type = SettingType::ENUM;
+  s.valuePtr = &CrossPointSettings::x3SourceDrive;
+  s.key = "x3SourceDrive";
+  s.category = StrId::STR_CAT_DISPLAY;
+  s.enumStringValues = {"Full (0x3F)",     "Light (0x38)",  "Mid (0x34)",
+                        "Moderate (0x30)", "Gentle (0x2C)", "Gentlest (0x28)"};
+  s.enumRawValues = {0x3F, 0x38, 0x34, 0x30, 0x2C, 0x28};
+  return s;
 }
 
 const std::vector<SettingInfo>& getBaseSettingsList();
@@ -1102,6 +1120,10 @@ inline std::vector<SettingInfo> buildSystemDeviceSettingsList(const std::vector<
     addSettingByName(settings, allSettings, StrId::STR_DATE_FORMAT);
     addSettingByName(settings, allSettings, StrId::STR_DATE_SEPARATOR);
     settings.push_back(SettingInfo::Action(StrId::STR_CLOCK_SYNC_NOW, SettingAction::ClockSync));
+  }
+  // X3-only panel drive tuning; hidden on X4 where it has no effect.
+  if (gpio.deviceIsX3()) {
+    addSettingByName(settings, allSettings, StrId::STR_X3_SOURCE_VOLTAGE);
   }
   return settings;
 }

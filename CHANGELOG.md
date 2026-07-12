@@ -31,6 +31,7 @@
 - Show a one-time What's New screen after updating, with a one-click Update for an outdated language pack; reopen it anytime in Settings → System → Release Notes.
 - Choose a download folder for each OPDS server on the device or web portal, with options to use the shared default or SD root.
 - EPUB chapter images in GIF format now display (previously only JPEG and PNG were decoded, so GIF images — common for chapter-heading ornaments — were silently skipped). Animated GIFs render their first frame only, since these e-ink devices are unsuitable for animation.
+- X3 devices can now tune the panel Display Voltage (Settings → System → Device) from full drive down to gentler levels, reducing electrical stress on a ghosting-prone panel at the cost of some contrast. The setting only under-drives the panel and never over-stresses it.
 
 ### Fixed
 
