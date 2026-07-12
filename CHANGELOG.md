@@ -6,6 +6,7 @@
 - EPUB readers can now choose from five word-spacing levels, from normal through extra-wide.
 - EPUB inline-image pages on X3 now use the grayscale-aware display base before the image grayscale overlay, reducing the moment where images appear too dark before settling.
 - EPUB chapter images in GIF format now display (previously only JPEG and PNG were decoded, so GIF images — common for chapter-heading ornaments — were silently skipped). Animated GIFs render their first frame only, since these e-ink devices are unsuitable for animation.
+- X3 devices can now tune the panel Display Voltage (Settings → System → Device) from full drive down to gentler levels, reducing electrical stress on a ghosting-prone panel at the cost of some contrast. The setting only under-drives the panel and never over-stresses it.
 
 ### Changed
 

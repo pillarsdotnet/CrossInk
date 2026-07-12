@@ -603,6 +603,10 @@ void enterDeepSleep(bool fromTimeout) {
 }
 
 void setupDisplayAndFonts(bool seamless = false) {
+  // Apply the configured X3 source-drive voltage before begin() latches it at
+  // POWER_ON (no-op on X4). On the SD-mount-failure path SETTINGS is still at
+  // defaults (0x3F = vendor), so the panel drives normally.
+  display.setX3SourceDriveLevel(SETTINGS.x3SourceDrive);
 #ifdef SIMULATOR
   (void)seamless;
   display.begin();

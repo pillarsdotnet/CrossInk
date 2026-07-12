@@ -333,6 +333,12 @@ class CrossPointSettings {
   // Set once an NTP sync writes both date and time. Kept separate so older
   // time-only syncs do not unlock date display with stale RTC date registers.
   uint8_t clockDateHasBeenSynced = 0;
+  // X3 panel source-drive (VDH/VDL) level. Vendor default 0x3F (full drive);
+  // lower values under-drive only VDH/VDL to reduce source-driver stress on a
+  // suspect panel (gentler, weaker contrast / more ghosting). Stored as the raw
+  // register value; the driver clamps to <= 0x3F so it can only under-drive.
+  // Ignored on X4. See Uc8253X3Driver::setSourceDriveLevel.
+  uint8_t x3SourceDrive = 0x3F;
   // Text rendering settings
   uint8_t extraParagraphSpacing = 1;
   uint8_t forceParagraphIndents = 0;

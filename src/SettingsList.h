@@ -267,6 +267,24 @@ inline SettingInfo buildSleepScreenSetting() {
 // SdCardFontRegistry is supplied AND has SD card fonts installed, the
 // font-family entry is replaced in a per-call copy with a registry-aware
 // version. Callers without SD fonts pay only a vector copy.
+// X3 panel source-drive (VDH/VDL) level. Discrete levels from vendor full drive
+// (0x3F) down to the gentlest still-usable drive (0x28). Lower under-drives only
+// VDH/VDL to reduce source-driver stress on a suspect panel, trading contrast /
+// more ghosting. Stored as the raw register value; the driver clamps to <= 0x3F.
+// X3-only (no-op on X4); added to the Device menu only when running on X3.
+inline SettingInfo buildX3SourceVoltageSetting() {
+  SettingInfo s;
+  s.nameId = StrId::STR_X3_SOURCE_VOLTAGE;
+  s.type = SettingType::ENUM;
+  s.valuePtr = &CrossPointSettings::x3SourceDrive;
+  s.key = "x3SourceDrive";
+  s.category = StrId::STR_CAT_DISPLAY;
+  s.enumStringValues = {"Full (0x3F)",     "Light (0x38)",  "Mid (0x34)",
+                        "Moderate (0x30)", "Gentle (0x2C)", "Gentlest (0x28)"};
+  s.enumRawValues = {0x3F, 0x38, 0x34, 0x30, 0x2C, 0x28};
+  return s;
+}
+
 inline std::vector<SettingInfo> getSettingsList(const SdCardFontRegistry* registry = nullptr) {
   static const std::vector<SettingInfo> baseList = [] {
     std::vector<SettingInfo> v;
@@ -295,6 +313,7 @@ inline std::vector<SettingInfo> getSettingsList(const SdCardFontRegistry* regist
         StrId::STR_REFRESH_FREQ, &CrossPointSettings::refreshFrequency,
         {StrId::STR_PAGES_1, StrId::STR_PAGES_5, StrId::STR_PAGES_10, StrId::STR_PAGES_15, StrId::STR_PAGES_30},
         "refreshFrequency", StrId::STR_CAT_DISPLAY));
+    add(buildX3SourceVoltageSetting());
     add(SettingInfo::Enum(
             StrId::STR_UI_THEME, &CrossPointSettings::uiTheme,
             {StrId::STR_THEME_CLASSIC, StrId::STR_THEME_MINIMAL, StrId::STR_THEME_DASHBOARD, StrId::STR_THEME_LYRA,
@@ -940,6 +959,10 @@ inline std::vector<SettingInfo> buildSystemDeviceSettingsList(const std::vector<
     addSettingByName(settings, allSettings, StrId::STR_CLOCK_FORMAT);
     addSettingByName(settings, allSettings, StrId::STR_CLOCK_UTC_OFFSET);
     settings.push_back(SettingInfo::Action(StrId::STR_CLOCK_SYNC_NOW, SettingAction::ClockSync));
+  }
+  // X3-only panel drive tuning; hidden on X4 where it has no effect.
+  if (gpio.deviceIsX3()) {
+    addSettingByName(settings, allSettings, StrId::STR_X3_SOURCE_VOLTAGE);
   }
   return settings;
 }

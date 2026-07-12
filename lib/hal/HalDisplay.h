@@ -25,6 +25,12 @@ class HalDisplay {
   // (~770ms each on X3).
   void begin(bool seamless = false);
 
+  // X3 source-drive (VDH/VDL) level, applied at the next begin(). Vendor default
+  // 0x3F (full drive); lower values under-drive only VDH/VDL for a gentler, but
+  // weaker, panel drive. Clamped to <= 0x3F downstream; no effect on X4. Call
+  // before begin().
+  void setX3SourceDriveLevel(uint8_t vdhVdl);
+
   // Display dimensions
   static constexpr uint16_t DISPLAY_WIDTH = EInkDisplay::DISPLAY_WIDTH;
   static constexpr uint16_t DISPLAY_HEIGHT = EInkDisplay::DISPLAY_HEIGHT;
