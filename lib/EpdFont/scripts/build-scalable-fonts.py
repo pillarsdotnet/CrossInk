@@ -19,7 +19,8 @@ args = parser.parse_args()
 args.output.mkdir(parents=True, exist_ok=True)
 headers = Path(__file__).resolve().parents[1] / 'builtinFonts'
 assets = []
-for family, directory in [('bitter', 'Bitter'), ('lexenddeca', 'LexendDeca')]:
+# Personal variant: Bitter is removed; lexenddeca is the only built-in family.
+for family, directory in [('lexenddeca', 'LexendDeca')]:
     for style in ['Regular', 'Bold', 'Italic', 'BoldItalic']:
         name = f'{family}_{style.lower()}'
         header = (headers / f'{family}_12_{style.lower()}.h').read_text()
