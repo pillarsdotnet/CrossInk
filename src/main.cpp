@@ -1150,14 +1150,15 @@ void setupDisplayAndFonts(const bool seamless, const bool loadReaderResources, c
   }
 #endif
 
+#ifdef SIMULATOR
+  // The simulator's HalDisplay has no panel voltage control.
+  (void)seamless;
+  display.begin();
+#else
   // Apply the configured X3 source-drive voltage before begin() latches it at
   // POWER_ON (no-op on X4). On the SD-mount-failure path SETTINGS is still at
   // defaults (0x3F = vendor), so the panel drives normally.
   display.setX3SourceDriveLevel(SETTINGS.x3SourceDrive);
-#ifdef SIMULATOR
-  (void)seamless;
-  display.begin();
-#else
   display.begin(seamless);
 #endif
   renderer.begin();
